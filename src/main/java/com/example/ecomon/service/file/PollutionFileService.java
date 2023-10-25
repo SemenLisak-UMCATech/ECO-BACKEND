@@ -5,6 +5,7 @@ import static com.example.ecomon.common.ApplicationConstants.File.HEADERS;
 import com.example.ecomon.dto.pollution.AggregatedPollution;
 import com.example.ecomon.dto.pollution.PollutionRequest;
 import com.example.ecomon.service.pollution.PollutionService;
+import com.google.common.collect.Streams;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -30,10 +31,9 @@ public class PollutionFileService {
     @Transactional
     public void save(MultipartFile file) throws IOException {
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
-            Sheet sheet = workbook.getSheetAt(0);
-            for (Row row : sheet) {
-                writeRow(row);
-            }
+            Streams.stream(workbook.getSheetAt(0))
+                    .skip(1) // Header
+                    .forEach(this::writeRow);
         }
     }
 

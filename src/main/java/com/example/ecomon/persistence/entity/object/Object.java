@@ -25,7 +25,6 @@ public class Object {
     private String name;
 
     @Column(name = "description")
-    @NotBlank
     private String description;
 
     @OneToMany(mappedBy = "object", cascade = {CascadeType.REMOVE})

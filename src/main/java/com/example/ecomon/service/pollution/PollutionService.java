@@ -91,7 +91,7 @@ public class PollutionService {
 
     private Object mapToObject(PollutionRequest pollutionRequest) {
         return objectRepository.findByNameIgnoreCase(pollutionRequest.objectName())
-                .orElse(new Object(pollutionRequest.objectName()));
+                .orElse(new Object(pollutionRequest.objectName(), "None"));
     }
 
     private Pollution findPollutionByIdOrThrow(Long id) {
